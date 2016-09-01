@@ -1,5 +1,4 @@
-
-#ifndef AAA
+#ifndef SF2442_CUMULATIVE
 #include <iostream>
 #include <vector>
 #endif
@@ -9,8 +8,8 @@
 #include "Logic.hpp"
 #include "CourseCalculator.hpp"
 
-int main()
-{
+
+int main(int ac, char *av[]) {
     Game g;
     g.initialize(std::cin);
 

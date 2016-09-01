@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef SF2442_CUMULATIVE
+#include <ostream>
+#endif
+
 #include "Geometry.hpp"
 
 struct Command {

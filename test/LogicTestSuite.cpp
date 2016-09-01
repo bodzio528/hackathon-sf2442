@@ -15,14 +15,10 @@ struct LogicTestSuite : Test {
     StrictMock<GameMock> gameMock;
     StrictMock<CourseCalculatorMock> calculatorMock;
 
-    Logic *sut;
+    std::unique_ptr<Logic> sut;
 
     void SetUp() override {
-        sut = new Logic(gameMock, calculatorMock);
-    }
-
-    void TearDown() override {
-        delete sut;
+        sut.reset(new Logic(gameMock, calculatorMock));
     }
 };
 
@@ -34,8 +30,6 @@ TEST_F(LogicTestSuite, TargetIsCorrectedAdditively) {
     EXPECT_CALL(gameMock, getMyDrone()).WillOnce(ReturnRef(drone));
     EXPECT_CALL(gameMock, getCheckpoint(0)).WillOnce(Return(checkpoint));
     EXPECT_CALL(calculatorMock, calculateCorrection(Ref(drone), checkpoint)).WillOnce(Return(correction));
-//    EXPECT_CALL(gameMock, getCheckpointCount()).WillOnce(Return(2));
-//    EXPECT_CALL(gameMock, getCheckpoint(1)).WillOnce(Return(Position{1800, 2000}));
 
     auto cmd = sut->calculateCommand();
 

@@ -7,7 +7,7 @@ void Game::initialize(std::istream& in) {
 
     checkpoints.resize(checkpointCount);
     for (auto& checkpoint : checkpoints) {
-        int x, y;
+        double x, y;
         in >> x >> y;
         checkpoint = { x, y };
     }
@@ -17,7 +17,8 @@ void Game::initialize(std::istream& in) {
 
 void Game::update(std::istream& in) {
     for (auto& drone : drones) {
-        int x, y, vx, vy, nextCheckPoint;
+        double x, y, vx, vy;
+        int nextCheckPoint;
         in >> x >> y >> vx >> vy >> nextCheckPoint;
         drone = Drone{ { x, y }, { vx, vy }, nextCheckPoint };
     }

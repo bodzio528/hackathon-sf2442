@@ -3,12 +3,12 @@
 #include "Drone.hpp"
 
 namespace {
-int scalar_product(Vector a, Vector b) {
+double scalar_product(Vector a, Vector b) {
     return a.real()*b.real() + a.imag()*b.imag();
 }
 
 Vector map_vector(Vector a, Vector b) {
-    return scalar_product(a, b) * b / std::abs(b) / std::abs(b);
+    return scalar_product(a, b) * b / std::pow(std::abs(b), 2.0);
 }
 }
 

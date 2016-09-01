@@ -1,9 +1,9 @@
 #pragma once
 
-#ifndef AAA
+#ifndef SF2442_CUMULATIVE
 #include <complex>
 #endif
 
-using Position = std::complex<int>;
-using Speed = std::complex<int>;
-using Vector = std::complex<int>;
+using Position = std::complex<double>;
+using Speed = std::complex<double>;
+using Vector = std::complex<double>;

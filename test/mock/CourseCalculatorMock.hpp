@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../include/ICourseCalculator.hpp"
+#include "ICourseCalculator.hpp"
 
 #include "gmock/gmock.h"
 

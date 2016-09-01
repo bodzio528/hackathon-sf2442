@@ -1,8 +1,8 @@
 #pragma once
 
-#ifndef AAA
-#include <vector>
+#ifndef SF2442_CUMULATIVE
 #include <istream>
+#include <vector>
 #endif
 
 #include "IGame.hpp"
