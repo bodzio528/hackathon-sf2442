@@ -12,8 +12,8 @@
 using namespace ::testing;
 
 struct LogicTestSuite : Test {
-    GameMock gameMock;
-    CourseCalculatorMock calculatorMock;
+    StrictMock<GameMock> gameMock;
+    StrictMock<CourseCalculatorMock> calculatorMock;
 
     Logic *sut;
 
@@ -26,13 +26,18 @@ struct LogicTestSuite : Test {
     }
 };
 
-TEST_F(LogicTestSuite, callCalculateCommand) {
+TEST_F(LogicTestSuite, TargetIsCorrectedAdditively) {
     Drone drone;
+    Position checkpoint{1000, 1200};
+    Vector correction{100, 200};
 
     EXPECT_CALL(gameMock, getMyDrone()).WillOnce(ReturnRef(drone));
-    EXPECT_CALL(gameMock, getCheckpoint(0)).WillOnce(Return(Position{1000, 1200}));
+    EXPECT_CALL(gameMock, getCheckpoint(0)).WillOnce(Return(checkpoint));
+    EXPECT_CALL(calculatorMock, calculateCorrection(Ref(drone), checkpoint)).WillOnce(Return(correction));
 //    EXPECT_CALL(gameMock, getCheckpointCount()).WillOnce(Return(2));
 //    EXPECT_CALL(gameMock, getCheckpoint(1)).WillOnce(Return(Position{1800, 2000}));
 
     auto cmd = sut->calculateCommand();
+
+    EXPECT_EQ(cmd.target, checkpoint + correction);
 }

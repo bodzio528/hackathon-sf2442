@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(./include)
 
 set(HDR_LIST
-    include/Command.hpp
-    include/Game.hpp
-    include/IGame.hpp
     include/Geometry.hpp
+    include/Command.hpp
+    include/IGame.hpp
+    include/Game.hpp
     include/CourseCalculator.hpp
     include/ICourseCalculator.hpp
     include/Drone.hpp
@@ -26,10 +26,17 @@ add_custom_target(syntax
     COMMAND clang ${CMAKE_CXX_FLAGS} -std=c++11 -fsyntax-only ${HDR_LIST} ${MOCK_LIST}
     SOURCES ${HDR_LIST} ${MOCK_LIST})
 
-add_library(Logic
+add_custom_target(cumulative
+    COMMAND clang++ -E -P ${CMAKE_CXX_FLAGS} -DAAA -nostdinc++ -std=c++11 -I${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src/Cumulative.cpp > ${CMAKE_CURRENT_BINARY_DIR}/cumulative.cpp
+    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/Cumulative.cpp)
+
+set(LOGIC_SRC
+    src/Game.cpp
     src/Logic.cpp
     src/CourseCalculator.cpp
 )
+
+add_library(Logic ${LOGIC_SRC})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} Logic)

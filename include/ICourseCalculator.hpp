@@ -2,9 +2,11 @@
 
 #include "Geometry.hpp"
 
+class Drone;
+
 class ICourseCalculator {
 public:
     virtual ~ICourseCalculator() = default;
 
-    virtual Position calculateCorrection() = 0;
+    virtual Vector calculateCorrection(Drone const& drone, Position target) = 0;
 };

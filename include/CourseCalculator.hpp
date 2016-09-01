@@ -4,5 +4,5 @@
 
 class CourseCalculator : public ICourseCalculator {
 public:
-    Position calculateCorrection() override;
+    Vector calculateCorrection(Drone const& drone, Position target) override;
 };
