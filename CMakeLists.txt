@@ -36,8 +36,6 @@ add_custom_command(TARGET Cumulative PRE_BUILD
         cat ${LOGIC_SRC} ${MAIN_SRC} |
         ${CMAKE_CXX_COMPILER} -x c++ -E -P -DSF2442_CUMULATIVE -nostdinc++ -std=c++11 -I./include - |
         cat -s ${CMAKE_CURRENT_BINARY_DIR}/Includes.cpp - > ${CMAKE_CURRENT_BINARY_DIR}/Cumulative.cpp
-#    COMMAND # remove intermediate
-#        rm ${CMAKE_CURRENT_BINARY_DIR}/Includes.cpp
     DEPENDS ${HDR_LIST} ${LOGIC_SRC} ${MAIN_SRC}
     COMMENT "Generate cumulative C++ source from preprocessor output"
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -48,8 +46,9 @@ add_library(Logic ${LOGIC_SRC})
 add_executable(${PROJECT_NAME} ${MAIN_SRC} ${HDR_LIST})
 target_link_libraries(${PROJECT_NAME} Logic)
 
-add_subdirectory(googletest-master)
 enable_testing()
+
+add_subdirectory(googletest-master)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 include_directories(${gmock_SOURCE_DIR}/include ${gmock_SOURCE_DIR})
 
@@ -65,13 +64,17 @@ set(TEST_SUITES
     test/CourseCalculatorTestSuite.cpp
 )
 
-foreach (test_suite_file ${TEST_SUITES})
-    get_filename_component(test_suite_name ${test_suite_file} NAME_WE)
-    add_executable(${test_suite_name} ${test_suite_file})
-    target_link_libraries(${test_suite_name} Logic gmock gmock_main)
-    add_test(run_${test_suite_name} ${test_suite_name})
-endforeach()
+option(BUILD_DETAILED_UNIT_TESTS "Decide whether build separate executable for each test suite" OFF)
+
+if (BUILD_DETAILED_UNIT_TESTS)
+    foreach (test_suite_file ${TEST_SUITES})
+        get_filename_component(test_suite_name ${test_suite_file} NAME_WE)
+        add_executable(${test_suite_name} ${test_suite_file})
+        target_link_libraries(${test_suite_name} Logic gmock_main)
+        add_test(run_${test_suite_name} ${test_suite_name})
+    endforeach()
+endif()
 
 add_executable(UTexe ${TEST_SUITES} ${MOCK_LIST})
-target_link_libraries(UTexe Logic gmock gmock_main)
+target_link_libraries(UTexe Logic gmock_main)
 add_test(run_UTexe UTexe)
