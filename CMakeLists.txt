@@ -17,6 +17,8 @@ set(HDR_LIST
     include/ITargetCalculator.hpp
     include/Drone.hpp
     include/Logic.hpp
+    include/IBoostCalculator.hpp
+    include/BoostCalculator.hpp
 )
 
 set(LOGIC_SRC
@@ -24,6 +26,7 @@ set(LOGIC_SRC
     src/Logic.cpp
     src/CourseCalculator.cpp
     src/TargetCalculator.cpp
+    src/BoostCalculator.cpp
 )
 
 set(MAIN_SRC
@@ -60,6 +63,7 @@ set(MOCK_LIST
     test/mock/GameMock.hpp
     test/mock/CourseCalculatorMock.hpp
     test/mock/TargetCalculatorMock.hpp
+    test/mock/BoostCalculatorMock.hpp
 )
 
 set(TEST_SUITES
@@ -68,6 +72,7 @@ set(TEST_SUITES
     test/LogicTestSuite.cpp
     test/CourseCalculatorTestSuite.cpp
     test/TargetCalculatorTestSuite.cpp
+    test/BoostCalculatorTestSuite.cpp
 )
 
 option(BUILD_DETAILED_UNIT_TESTS "Decide whether build separate executable for each test suite" OFF)

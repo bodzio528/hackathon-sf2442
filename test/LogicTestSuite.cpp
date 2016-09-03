@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "mock/GameMock.hpp"
+#include "mock/BoostCalculatorMock.hpp"
 #include "mock/CourseCalculatorMock.hpp"
 #include "mock/TargetCalculatorMock.hpp"
 
@@ -16,14 +17,28 @@ struct LogicTestSuite : Test {
     StrictMock<GameMock> gameMock;
     StrictMock<CourseCalculatorMock> courseMock;
     StrictMock<TargetCalculatorMock> targetMock;
+    NiceMock<BoostCalculatorMock> boostMock;
 
     std::unique_ptr<Logic> sut;
 
     void SetUp() override {
-        sut = std::make_unique<Logic>(gameMock, courseMock, targetMock);
+        sut = std::make_unique<Logic>(gameMock, courseMock, targetMock, boostMock);
     }
 };
 
+TEST_F(LogicTestSuite, BoostIsCalculatedByBoostCalculator) {
+    Drone drone;
+    Position checkpoint{1000, 1200};
+
+    EXPECT_CALL(gameMock, getMyDrone()).WillOnce(ReturnRef(drone));
+    EXPECT_CALL(targetMock, calculateTarget(Ref(drone))).WillOnce(Return(checkpoint));
+    EXPECT_CALL(courseMock, calculateCorrection(Ref(drone), checkpoint)).WillOnce(Return(c_zero));
+    EXPECT_CALL(boostMock, calculateBoost()).WillOnce(Return(true));
+
+    auto cmd = sut->calculateCommand();
+
+    EXPECT_EQ(cmd.thrust, "BOOST");
+}
 
 TEST_F(LogicTestSuite, TargetIsCalculatedByTargetCalculator) {
     Drone drone;

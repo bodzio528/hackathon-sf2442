@@ -9,7 +9,6 @@ public:
     virtual ~IGame() = default;
 
     virtual Drone& getMyDrone() = 0;
-//    virtual Drone& getOpponent() const = 0;
 
     virtual int getRemainingBoost() const = 0;
     virtual std::string useBoost() = 0;
