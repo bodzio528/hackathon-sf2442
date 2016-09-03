@@ -7,19 +7,20 @@
 #include "Command.hpp"
 #include "Logic.hpp"
 #include "CourseCalculator.hpp"
-
+#include "TargetCalculator.hpp"
 
 int main(int ac, char *av[]) {
-    Game g;
-    g.initialize(std::cin);
+    Game game;
+    game.initialize(std::cin);
 
-    CourseCalculator c;
+    CourseCalculator courseCalculator(3.0);
+    TargetCalculator targetCalculator(game);
 
-    Logic l(g, c);
+    Logic logic(game, courseCalculator, targetCalculator);
 
     while (1) {
-        g.update(std::cin);
-        auto cmd = l.calculateCommand();
+        game.update(std::cin);
+        auto cmd = logic.calculateCommand();
         std::cout << cmd;
     }
 }

@@ -2,7 +2,7 @@
 
 #include "IGame.hpp"
 
-#include "gmock/gmock.h"
+#include <gmock/gmock.h>
 
 struct GameMock : IGame {
     MOCK_METHOD0(getMyDrone, Drone&());

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 
 project(sf2442 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 include_directories(./include)
 
@@ -13,6 +13,8 @@ set(HDR_LIST
     include/Game.hpp
     include/CourseCalculator.hpp
     include/ICourseCalculator.hpp
+    include/TargetCalculator.hpp
+    include/ITargetCalculator.hpp
     include/Drone.hpp
     include/Logic.hpp
 )
@@ -21,6 +23,7 @@ set(LOGIC_SRC
     src/Game.cpp
     src/Logic.cpp
     src/CourseCalculator.cpp
+    src/TargetCalculator.cpp
 )
 
 set(MAIN_SRC
@@ -53,8 +56,10 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 include_directories(${gmock_SOURCE_DIR}/include ${gmock_SOURCE_DIR})
 
 set(MOCK_LIST
+    test/mock/GeometryMatchers.hpp
     test/mock/GameMock.hpp
     test/mock/CourseCalculatorMock.hpp
+    test/mock/TargetCalculatorMock.hpp
 )
 
 set(TEST_SUITES
@@ -62,6 +67,7 @@ set(TEST_SUITES
     test/GameTestSuite.cpp
     test/LogicTestSuite.cpp
     test/CourseCalculatorTestSuite.cpp
+    test/TargetCalculatorTestSuite.cpp
 )
 
 option(BUILD_DETAILED_UNIT_TESTS "Decide whether build separate executable for each test suite" OFF)

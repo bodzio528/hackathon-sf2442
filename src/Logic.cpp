@@ -1,27 +1,22 @@
 #include "Logic.hpp"
 
-#include "ICourseCalculator.hpp"
 #include "IGame.hpp"
+#include "ICourseCalculator.hpp"
+#include "ITargetCalculator.hpp"
 
 #include "Drone.hpp"
 
-Logic::Logic(IGame& game, ICourseCalculator& calculator)
+Logic::Logic(IGame& game, ICourseCalculator& courseCalc, ITargetCalculator& targetCalc)
     : m_game(game),
-      m_courseCalculator(calculator)
+      m_courseCalculator(courseCalc),
+      m_targetCalculator(targetCalc)
 {}
 
 Command Logic::calculateCommand() {
     IGame& game = m_game;
     Drone& me = m_game.getMyDrone();
-    // detect_lap(me.nextCheckpoint);
 
-    //select target
-    auto target = game.getCheckpoint(me.nextCheckpoint);
-    if (std::abs(target - me.position) < 600 + 85*std::abs(me.speed)/100) {
-        auto nextCheckpoint = (me.nextCheckpoint + 1) % game.getCheckpointCount();
-        target = game.getCheckpoint(nextCheckpoint);
-    }
-
+    auto target = m_targetCalculator.calculateTarget(me);
     target += m_courseCalculator.calculateCorrection(me, target);
 
     std::string thrust = "100";
