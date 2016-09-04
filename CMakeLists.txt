@@ -36,19 +36,24 @@ set(MAIN_SRC
     src/main.cpp
 )
 
-add_custom_target(Cumulative ALL)
-add_custom_command(TARGET Cumulative PRE_BUILD
-    COMMAND # find all #include <> and save then to Includes.cpp
-        grep -h -e "'^#include <[^>]*>'" -r include/ src/ |
-        sort -u | cat - > ${CMAKE_CURRENT_BINARY_DIR}/Includes.cpp
+add_custom_target(Cumulative ALL DEPENDS Cumulative.cpp)
+add_custom_command(OUTPUT Cumulative.cpp
     COMMAND
         cat ${LOGIC_SRC} ${MAIN_SRC} |
         ${CMAKE_CXX_COMPILER} -x c++ -E -P -DSF2442_CUMULATIVE -nostdinc++ -std=c++11 -I./include - |
         cat -s ${CMAKE_CURRENT_BINARY_DIR}/Includes.cpp - > ${CMAKE_CURRENT_BINARY_DIR}/Cumulative.cpp
-    DEPENDS ${HDR_LIST} ${LOGIC_SRC} ${MAIN_SRC}
+    DEPENDS Includes.cpp
     COMMENT "Generate cumulative C++ source from preprocessor output"
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+add_custom_command(OUTPUT Includes.cpp
+    COMMAND
+        grep -h -e "'^#include <[^>]*>'" -r include/ src/ |
+        sort -u | cat - > ${CMAKE_CURRENT_BINARY_DIR}/Includes.cpp
+    DEPENDS ${HDR_LIST} ${LOGIC_SRC} ${MAIN_SRC}
+    COMMENT "Find all #include <> and save them to Includes.cpp"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(Logic ${LOGIC_SRC})
 
