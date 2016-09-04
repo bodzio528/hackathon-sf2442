@@ -8,7 +8,8 @@ class IBoostCalculator;
 class ICourseCalculator;
 class ITargetCalculator;
 
-class Logic {
+class Logic
+{
 public:
     Logic(IGame&, ICourseCalculator&, ITargetCalculator&, IBoostCalculator&);
 

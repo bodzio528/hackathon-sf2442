@@ -4,7 +4,8 @@
 
 class IGame;
 
-class LapCalculator : public ILapCalculator {
+class LapCalculator : public ILapCalculator
+{
 public:
     LapCalculator(IGame const& game);
 

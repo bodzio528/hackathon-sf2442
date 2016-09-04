@@ -4,8 +4,7 @@
 
 #include "Drone.hpp"
 
-LapCalculator::LapCalculator(IGame const& game)
-    : m_game(game)
+LapCalculator::LapCalculator(IGame const& game) : m_game(game)
 {
 }
 
@@ -22,4 +21,7 @@ void LapCalculator::update()
     }
 }
 
-int LapCalculator::lap() const { return m_leap; }
+int LapCalculator::lap() const
+{
+    return m_leap;
+}

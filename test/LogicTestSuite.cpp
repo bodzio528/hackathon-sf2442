@@ -4,29 +4,34 @@
 
 #include <gtest/gtest.h>
 
-#include "mock/GameMock.hpp"
 #include "mock/BoostCalculatorMock.hpp"
 #include "mock/CourseCalculatorMock.hpp"
+#include "mock/GameMock.hpp"
 #include "mock/TargetCalculatorMock.hpp"
 
 #include "Drone.hpp"
 
 using namespace ::testing;
 
-struct LogicTestSuite : Test {
+struct LogicTestSuite : Test
+{
+    void SetUp() override;
+
     StrictMock<GameMock> gameMock;
     StrictMock<CourseCalculatorMock> courseMock;
     StrictMock<TargetCalculatorMock> targetMock;
     NiceMock<BoostCalculatorMock> boostMock;
 
     std::unique_ptr<Logic> sut;
-
-    void SetUp() override {
-        sut = std::make_unique<Logic>(gameMock, courseMock, targetMock, boostMock);
-    }
 };
 
-TEST_F(LogicTestSuite, BoostIsCalculatedByBoostCalculator) {
+void LogicTestSuite::SetUp()
+{
+    sut = std::make_unique<Logic>(gameMock, courseMock, targetMock, boostMock);
+}
+
+TEST_F(LogicTestSuite, BoostIsCalculatedByBoostCalculator)
+{
     Drone drone;
     Position checkpoint{1000, 1200};
 
@@ -40,7 +45,8 @@ TEST_F(LogicTestSuite, BoostIsCalculatedByBoostCalculator) {
     EXPECT_EQ(cmd.thrust, "BOOST");
 }
 
-TEST_F(LogicTestSuite, TargetIsCalculatedByTargetCalculator) {
+TEST_F(LogicTestSuite, TargetIsCalculatedByTargetCalculator)
+{
     Drone drone;
     Position checkpoint{1000, 1200};
 
@@ -53,7 +59,8 @@ TEST_F(LogicTestSuite, TargetIsCalculatedByTargetCalculator) {
     EXPECT_EQ(cmd.target, checkpoint);
 }
 
-TEST_F(LogicTestSuite, TargetIsCorrectedAdditively) {
+TEST_F(LogicTestSuite, TargetIsCorrectedAdditively)
+{
     Drone drone;
     Position checkpoint{1000, 1200};
     Vector correction{100, 200};

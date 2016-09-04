@@ -1,6 +1,7 @@
 #pragma once
 
-class ILapCalculator {
+class ILapCalculator
+{
 public:
     virtual ~ILapCalculator() = default;
 

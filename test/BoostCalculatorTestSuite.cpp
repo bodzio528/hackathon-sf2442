@@ -7,21 +7,26 @@
 
 using namespace ::testing;
 
-struct BoostCalculatorTestSuite : Test {
+struct BoostCalculatorTestSuite : Test
+{
     StrictMock<GameMock> gameMock;
     StrictMock<LapCalculatorMock> lapMock;
 
     std::unique_ptr<BoostCalculator> sut;
 
-    void SetUp() override {
-        EXPECT_CALL(gameMock, laps()).WillOnce(Return(0));
-        EXPECT_CALL(gameMock, boosts()).WillOnce(Return(0));
-
-        sut = std::make_unique<BoostCalculator>(gameMock, lapMock);
-    }
+    void SetUp() override;
 };
 
-TEST_F(BoostCalculatorTestSuite, feil) {
+void BoostCalculatorTestSuite::SetUp()
+{
+    EXPECT_CALL(gameMock, laps()).WillOnce(Return(0));
+    EXPECT_CALL(gameMock, boosts()).WillOnce(Return(0));
+
+    sut = std::make_unique<BoostCalculator>(gameMock, lapMock);
+}
+
+TEST_F(BoostCalculatorTestSuite, feil)
+{
     EXPECT_CALL(lapMock, lap()).WillOnce(Return(0));
 
     EXPECT_FALSE(sut->calculateBoost());

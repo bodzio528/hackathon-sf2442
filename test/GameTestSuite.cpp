@@ -1,32 +1,31 @@
 #include "Game.hpp"
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 using namespace ::testing;
 
 MATCHER(DroneEmpty, "")
 {
-    return arg.position == c_origin
-            and arg.speed == c_static
-            and arg.nextCheckpoint == 0;
+    return arg.position == c_origin and arg.speed == c_static and arg.nextCheckpoint == 0;
 }
 
 MATCHER_P(DroneEq, value, "")
 {
-    return value.position == arg.position
-            and value.speed == arg.speed
-            and value.nextCheckpoint == arg.nextCheckpoint;
+    return value.position == arg.position and value.speed == arg.speed and value.nextCheckpoint == arg.nextCheckpoint;
 }
 
-struct GameTestSuite : Test {
-    std::unique_ptr<Game> sut;
+struct GameTestSuite : Test
+{
+    void SetUp() override;
 
-    void SetUp() override
-    {
-        sut = std::make_unique<Game>();
-    }
+    std::unique_ptr<Game> sut;
 };
+
+void GameTestSuite::SetUp()
+{
+    sut = std::make_unique<Game>();
+}
 
 TEST_F(GameTestSuite, initializeParsesInitDataString)
 {
@@ -40,12 +39,13 @@ TEST_F(GameTestSuite, initializeParsesInitDataString)
     EXPECT_THAT(sut->drone(0), DroneEmpty());
     EXPECT_THAT(sut->drone(1), DroneEmpty());
     EXPECT_THAT(sut->checkpoints(), Eq(3));
-    EXPECT_THAT(sut->checkpoint(0), Eq(Position{ 10, 20 }));
-    EXPECT_THAT(sut->checkpoint(1), Eq(Position{ 30, 40 }));
-    EXPECT_THAT(sut->checkpoint(2), Eq(Position{ 50, 60 }));
+    EXPECT_THAT(sut->checkpoint(0), Eq(Position{10, 20}));
+    EXPECT_THAT(sut->checkpoint(1), Eq(Position{30, 40}));
+    EXPECT_THAT(sut->checkpoint(2), Eq(Position{50, 60}));
 }
 
-struct GameUpdateTestSuite : GameTestSuite {
+struct GameUpdateTestSuite : GameTestSuite
+{
     void initializeSingleDrone()
     {
         std::stringstream ss;
@@ -71,7 +71,7 @@ TEST_F(GameUpdateTestSuite, updateParse_SingleDrone)
 
     sut->update(ss);
 
-    EXPECT_THAT(sut->drone(), DroneEq(Drone{ { 50, 30 }, { 5, 3 }, 1 }));
+    EXPECT_THAT(sut->drone(), DroneEq(Drone{{50, 30}, {5, 3}, 1}));
 }
 
 TEST_F(GameUpdateTestSuite, updateParse_MultipleDrones)
@@ -82,7 +82,7 @@ TEST_F(GameUpdateTestSuite, updateParse_MultipleDrones)
 
     sut->update(ss);
 
-    EXPECT_THAT(sut->drone(0), DroneEq(Drone{ { 50, 30 }, { 5, 3 }, 1 }));
-    EXPECT_THAT(sut->drone(1), DroneEq(Drone{ { 51, 32 }, { 6, 4 }, 2 }));
-    EXPECT_THAT(sut->drone(2), DroneEq(Drone{ { 54, 31 }, { 4, 7 }, 3 }));
+    EXPECT_THAT(sut->drone(0), DroneEq(Drone{{50, 30}, {5, 3}, 1}));
+    EXPECT_THAT(sut->drone(1), DroneEq(Drone{{51, 32}, {6, 4}, 2}));
+    EXPECT_THAT(sut->drone(2), DroneEq(Drone{{54, 31}, {4, 7}, 3}));
 }

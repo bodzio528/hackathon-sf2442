@@ -1,6 +1,7 @@
 #pragma once
 
-class IBoostCalculator {
+class IBoostCalculator
+{
 public:
     virtual ~IBoostCalculator() = default;
 

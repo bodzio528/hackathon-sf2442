@@ -1,15 +1,17 @@
 #include "Command.hpp"
 
+#include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 using namespace ::testing;
 
-struct CommandTestSuite : Test {
+struct CommandTestSuite : Test
+{
     Command sut;
 };
 
-TEST_F(CommandTestSuite, commandIsPrintable) {
+TEST_F(CommandTestSuite, commandIsPrintable)
+{
     sut.target = Position{2406, 1271};
     sut.thrust = "73";
 
@@ -20,7 +22,8 @@ TEST_F(CommandTestSuite, commandIsPrintable) {
     EXPECT_THAT(ss.str(), EndsWith("\n"));
 }
 
-TEST_F(CommandTestSuite, commandIsPrintable_BOOST) {
+TEST_F(CommandTestSuite, commandIsPrintable_BOOST)
+{
     sut.target = Position{2486, 1571};
     sut.thrust = "BOOST";
 

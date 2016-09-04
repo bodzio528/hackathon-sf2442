@@ -2,9 +2,12 @@
 
 #include "Drone.hpp"
 
-CourseCalculator::CourseCalculator(double force) : m_correction_coefficient(force) {}
+CourseCalculator::CourseCalculator(double force) : m_correction_coefficient(force)
+{
+}
 
-Vector CourseCalculator::calculateCorrection(Drone const& drone, Position target) {
+Vector CourseCalculator::calculateCorrection(Drone const& drone, Position target)
+{
     auto trajectory = target - drone.position;
     auto course = std::arg(trajectory);
     auto angle = course - std::arg(drone.speed);

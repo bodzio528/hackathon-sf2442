@@ -4,6 +4,7 @@
 
 #include <gmock/gmock.h>
 
-struct BoostCalculatorMock : IBoostCalculator {
+struct BoostCalculatorMock : IBoostCalculator
+{
     MOCK_METHOD0(calculateBoost, bool());
 };

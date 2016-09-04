@@ -4,7 +4,8 @@
 
 class Drone;
 
-class IGame {
+class IGame
+{
 public:
     virtual ~IGame() = default;
 

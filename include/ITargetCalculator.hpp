@@ -4,7 +4,8 @@
 
 class Drone;
 
-class ITargetCalculator {
+class ITargetCalculator
+{
 public:
     virtual ~ITargetCalculator() = default;
 

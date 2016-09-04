@@ -2,9 +2,9 @@
 
 #include "Geometry.hpp"
 
-struct Drone {
+struct Drone
+{
     Position position;
     Speed speed;
     int nextCheckpoint;
 };
-

@@ -2,7 +2,8 @@
 
 #include "ICourseCalculator.hpp"
 
-class CourseCalculator : public ICourseCalculator {
+class CourseCalculator : public ICourseCalculator
+{
 public:
     CourseCalculator(double correction_coefficient);
 

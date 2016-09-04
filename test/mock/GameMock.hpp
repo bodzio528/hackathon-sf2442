@@ -1,11 +1,12 @@
 #pragma once
 
-#include "IGame.hpp"
 #include "Drone.hpp"
+#include "IGame.hpp"
 
 #include <gmock/gmock.h>
 
-struct GameMock : IGame {
+struct GameMock : IGame
+{
     MOCK_CONST_METHOD0(drone, Drone const&());
     MOCK_CONST_METHOD1(drone, Drone const&(int));
     MOCK_CONST_METHOD0(drones, int());

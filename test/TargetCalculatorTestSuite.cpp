@@ -9,24 +9,30 @@
 
 using namespace ::testing;
 
-struct TestRow {
+struct TestRow
+{
     Position drone;
     Position checkpoint_0;
     Position checkpoint_1;
     Position target;
 };
 
-struct TargetCalculatorTestSuite : TestWithParam<TestRow> {
-    void SetUp() override {
-        sut = std::make_unique<TargetCalculator>(gameMock);
-    }
+struct TargetCalculatorTestSuite : TestWithParam<TestRow>
+{
+    void SetUp() override;
 
     StrictMock<GameMock> gameMock;
 
     std::unique_ptr<TargetCalculator> sut;
 };
 
-TEST_P(TargetCalculatorTestSuite, feil) {
+void TargetCalculatorTestSuite::SetUp()
+{
+    sut = std::make_unique<TargetCalculator>(gameMock);
+}
+
+TEST_P(TargetCalculatorTestSuite, CalculationsTakeTwoConsecutiveNodesIntoAccount)
+{
     Drone drone;
     drone.position = GetParam().drone;
 
@@ -37,9 +43,9 @@ TEST_P(TargetCalculatorTestSuite, feil) {
     ASSERT_THAT(sut->calculateTarget(drone), VectorEq(GetParam().target));
 }
 
+// clang-format off
 INSTANTIATE_TEST_CASE_P(Instance, TargetCalculatorTestSuite, Values(
-    TestRow{ { 1000, 1000}, {    0,     0}, { 1000, -1000}, { 600,      0} },
-    TestRow{ {-1000, 1000}, {    0,     0}, { 1000,  1000}, { 0,      600} },
-    TestRow{ { 3600, 7200}, { 9600,  7200}, { 6000,  4200}, { 9036,  6996} },
-    TestRow{ {-6000,    0}, {    0,     0}, {-3600, -3000}, {-564,  - 204} }
-));
+        TestRow{{1000, 1000}, {0, 0}, {1000, -1000}, {600, 0}},
+        TestRow{{-1000, 1000}, {0, 0}, {1000, 1000}, {0, 600}},
+        TestRow{{3600, 7200}, {9600, 7200}, {6000, 4200}, {9036, 6996}},
+        TestRow{{-6000, 0}, {0, 0}, {-3600, -3000}, {-564, -204}}));

@@ -3,15 +3,16 @@
 #include <vector>
 #endif
 
-#include "Game.hpp"
-#include "Command.hpp"
-#include "Logic.hpp"
 #include "BoostCalculator.hpp"
+#include "Command.hpp"
 #include "CourseCalculator.hpp"
+#include "Game.hpp"
 #include "LapCalculator.hpp"
+#include "Logic.hpp"
 #include "TargetCalculator.hpp"
 
-int main(int ac, char *av[]) {
+int main(int ac, char *av[])
+{
     Game game;
     game.initialize(std::cin);
 

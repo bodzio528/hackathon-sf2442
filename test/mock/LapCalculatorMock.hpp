@@ -4,6 +4,7 @@
 
 #include <gmock/gmock.h>
 
-struct LapCalculatorMock : ILapCalculator {
+struct LapCalculatorMock : ILapCalculator
+{
     MOCK_CONST_METHOD0(lap, int());
 };

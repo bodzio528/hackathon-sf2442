@@ -4,7 +4,8 @@
 
 class Drone;
 
-class ICourseCalculator {
+class ICourseCalculator
+{
 public:
     virtual ~ICourseCalculator() = default;
 

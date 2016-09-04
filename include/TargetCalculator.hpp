@@ -4,7 +4,8 @@
 
 class IGame;
 
-class TargetCalculator : public ITargetCalculator {
+class TargetCalculator : public ITargetCalculator
+{
 public:
     TargetCalculator(IGame&);
 
