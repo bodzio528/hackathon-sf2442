@@ -3,20 +3,20 @@
 void Game::initialize(std::istream& in) {
     int playerCount;
     int checkpointCount;
-    in >> playerCount >> laps >> boosts >> checkpointCount;
+    in >> playerCount >> m_laps >> m_boosts >> checkpointCount;
 
-    checkpoints.resize(checkpointCount);
-    for (auto& checkpoint : checkpoints) {
+    m_checkpoints.resize(checkpointCount);
+    for (auto& checkpoint : m_checkpoints) {
         double x, y;
         in >> x >> y;
         checkpoint = { x, y };
     }
 
-    drones.resize(playerCount);
+    m_drones.resize(playerCount);
 }
 
 void Game::update(std::istream& in) {
-    for (auto& drone : drones) {
+    for (auto& drone : m_drones) {
         double x, y, vx, vy;
         int nextCheckPoint;
         in >> x >> y >> vx >> vy >> nextCheckPoint;
@@ -24,26 +24,31 @@ void Game::update(std::istream& in) {
     }
 }
 
-Drone& Game::getMyDrone() {
-    return drones[0];
+Drone const& Game::drone() const {
+    return m_drones[0];
 }
 
-int Game::getRemainingBoost() const {
-    return boosts;
+Drone const& Game::drone(int i) const {
+    return m_drones[i];
 }
 
-std::string Game::useBoost() {
-    if (getRemainingBoost()) {
-        --boosts;
-        return "BOOST";
-    }
-    return "100";
+int Game::drones() const {
+    return m_drones.size();
 }
 
-std::size_t Game::getCheckpointCount() const {
-    return checkpoints.size();
+int  Game::laps() const {
+
+    return m_laps;
 }
 
-Position Game::getCheckpoint(std::size_t i) const {
-    return checkpoints[i];
+int Game::boosts() const {
+    return m_boosts;
+}
+
+int Game::checkpoints() const {
+    return m_checkpoints.size();
+}
+
+Position Game::checkpoint(int i) const {
+    return m_checkpoints.at(i);
 }

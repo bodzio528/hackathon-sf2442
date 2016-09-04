@@ -6,8 +6,8 @@
 TargetCalculator::TargetCalculator(IGame &game) : m_game(game) {}
 
 Position TargetCalculator::calculateTarget(Drone const& drone) {
-    auto checkpoint_0 = m_game.getCheckpoint(drone.nextCheckpoint);
-    auto checkpoint_1 = m_game.getCheckpoint((drone.nextCheckpoint + 1) % m_game.getCheckpointCount());
+    auto checkpoint_0 = m_game.checkpoint(drone.nextCheckpoint);
+    auto checkpoint_1 = m_game.checkpoint((drone.nextCheckpoint + 1) % m_game.checkpoints());
 
     auto normalize = [](Vector a){ return a / std::abs(a); };
 

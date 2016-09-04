@@ -15,14 +15,17 @@ public:
     void initialize(std::istream& in) ;
     void update(std::istream& in);
 
-    Drone& getMyDrone() override ;
-    int getRemainingBoost() const override ;
-    std::string useBoost() override ;
-    std::size_t getCheckpointCount() const override ;
-    Position getCheckpoint(std::size_t i) const override ;
+    Drone const& drone() const override ;
+    Drone const& drone(int i) const override ;
+    int drones() const override ;
+    int laps() const override ;
+    int boosts() const override ;
+    Position checkpoint(int i) const override ;
+    int checkpoints() const override ;
 
-    int laps;
-    int boosts;
-    std::vector<Position> checkpoints;
-    std::vector<Drone> drones;
+private:
+    int m_laps;
+    int m_boosts;
+    std::vector<Position> m_checkpoints;
+    std::vector<Drone> m_drones;
 };

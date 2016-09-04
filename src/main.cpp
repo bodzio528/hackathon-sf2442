@@ -8,6 +8,7 @@
 #include "Logic.hpp"
 #include "BoostCalculator.hpp"
 #include "CourseCalculator.hpp"
+#include "LapCalculator.hpp"
 #include "TargetCalculator.hpp"
 
 int main(int ac, char *av[]) {
@@ -16,12 +17,15 @@ int main(int ac, char *av[]) {
 
     CourseCalculator courseCalculator(3.0);
     TargetCalculator targetCalculator(game);
-    BoostCalculator boostCalculator;
+
+    LapCalculator lapCalculator(game);
+    BoostCalculator boostCalculator(game, lapCalculator);
 
     Logic logic(game, courseCalculator, targetCalculator, boostCalculator);
 
     while (1) {
         game.update(std::cin);
+        lapCalculator.update();
         auto cmd = logic.calculateCommand();
         std::cout << cmd;
     }

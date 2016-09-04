@@ -8,11 +8,11 @@ class IGame {
 public:
     virtual ~IGame() = default;
 
-    virtual Drone& getMyDrone() = 0;
-
-    virtual int getRemainingBoost() const = 0;
-    virtual std::string useBoost() = 0;
-
-    virtual std::size_t getCheckpointCount() const = 0;
-    virtual Position getCheckpoint(std::size_t i) const = 0;
+    virtual Drone const& drone() const = 0;
+    virtual Drone const& drone(int i) const = 0;
+    virtual int drones() const = 0;
+    virtual int laps() const = 0;
+    virtual int boosts() const = 0;
+    virtual int checkpoints() const = 0;
+    virtual Position checkpoint(int i) const = 0;
 };

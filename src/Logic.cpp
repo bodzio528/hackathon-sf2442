@@ -1,33 +1,33 @@
 #include "Logic.hpp"
 
-#include "IGame.hpp"
 #include "IBoostCalculator.hpp"
 #include "ICourseCalculator.hpp"
+#include "IGame.hpp"
 #include "ITargetCalculator.hpp"
 
 #include "Drone.hpp"
 
-Logic::Logic(
-        IGame& game,
-        ICourseCalculator& courseCalc,
-        ITargetCalculator& targetCalc,
-        IBoostCalculator& boostCalc)
+Logic::Logic(IGame& game,
+    ICourseCalculator& courseCalc,
+    ITargetCalculator& targetCalc,
+    IBoostCalculator& boostCalc)
     : m_game(game),
       m_courseCalculator(courseCalc),
       m_targetCalculator(targetCalc),
-      m_boostCalculator(boostCalc)
-{}
+      m_boostCalculator(boostCalc) {}
 
 Command Logic::calculateCommand() {
-    Drone const& me = m_game.getMyDrone();
+    Command cmd;
 
-    auto target = m_targetCalculator.calculateTarget(me);
-    target += m_courseCalculator.calculateCorrection(me, target);
+    Drone const& drone = m_game.drone();
 
-    std::string thrust = "100";
+    cmd.target = m_targetCalculator.calculateTarget(drone);
+    cmd.target += m_courseCalculator.calculateCorrection(drone, cmd.target);
+
+    cmd.thrust = "100";
     if (m_boostCalculator.calculateBoost()) {
-        thrust = "BOOST";
+        cmd.thrust = "BOOST";
     }
 
-    return Command{target, thrust};
+    return cmd;
 }
