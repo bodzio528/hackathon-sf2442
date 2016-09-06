@@ -15,12 +15,12 @@ const Vector NO_CORRECTION = {0, 0};
 
 struct CourseCalculatorTestSuite : Test
 {
-    void SetUp() override;
-
     Drone drone;
     Position target;
 
     std::unique_ptr<CourseCalculator> sut;
+
+    void SetUp() override;
 };
 void CourseCalculatorTestSuite::SetUp()
 {

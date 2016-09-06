@@ -17,9 +17,9 @@ MATCHER_P(DroneEq, value, "")
 
 struct GameTestSuite : Test
 {
-    void SetUp() override;
-
     std::unique_ptr<Game> sut;
+
+    void SetUp() override;
 };
 
 void GameTestSuite::SetUp()

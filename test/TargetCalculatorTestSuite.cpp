@@ -19,11 +19,11 @@ struct TestRow
 
 struct TargetCalculatorTestSuite : TestWithParam<TestRow>
 {
-    void SetUp() override;
-
     StrictMock<GameMock> gameMock;
 
     std::unique_ptr<TargetCalculator> sut;
+
+    void SetUp() override;
 };
 
 void TargetCalculatorTestSuite::SetUp()
@@ -48,4 +48,5 @@ INSTANTIATE_TEST_CASE_P(Instance, TargetCalculatorTestSuite, Values(
         TestRow{{1000, 1000}, {0, 0}, {1000, -1000}, {600, 0}},
         TestRow{{-1000, 1000}, {0, 0}, {1000, 1000}, {0, 600}},
         TestRow{{3600, 7200}, {9600, 7200}, {6000, 4200}, {9036, 6996}},
-        TestRow{{-6000, 0}, {0, 0}, {-3600, -3000}, {-564, -204}}));
+        TestRow{{-6000, 0}, {0, 0}, {-3600, -3000}, {-564, -204}}
+));

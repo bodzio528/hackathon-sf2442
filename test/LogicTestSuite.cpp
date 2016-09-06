@@ -15,14 +15,14 @@ using namespace ::testing;
 
 struct LogicTestSuite : Test
 {
-    void SetUp() override;
-
     StrictMock<GameMock> gameMock;
     StrictMock<CourseCalculatorMock> courseMock;
     StrictMock<TargetCalculatorMock> targetMock;
     NiceMock<BoostCalculatorMock> boostMock;
 
     std::unique_ptr<Logic> sut;
+
+    void SetUp() override;
 };
 
 void LogicTestSuite::SetUp()

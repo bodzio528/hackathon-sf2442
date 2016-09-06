@@ -10,17 +10,19 @@
 #include "LapCalculator.hpp"
 #include "Logic.hpp"
 #include "TargetCalculator.hpp"
+#include "LongestSegmentCalculator.hpp"
 
 int main(int ac, char *av[])
 {
     Game game;
     game.initialize(std::cin);
 
-    CourseCalculator courseCalculator(3.0);
+    CourseCalculator courseCalculator(4.5);
     TargetCalculator targetCalculator(game);
 
     LapCalculator lapCalculator(game);
-    BoostCalculator boostCalculator(game, lapCalculator);
+    LongestSegmentCalculator segmentCalculator(game);
+    BoostCalculator boostCalculator(game, lapCalculator, segmentCalculator);
 
     Logic logic(game, courseCalculator, targetCalculator, boostCalculator);
 

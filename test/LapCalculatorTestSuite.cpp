@@ -8,13 +8,19 @@
 
 using namespace ::testing;
 
-struct LapCalculatorTestSuite : Test
+struct LapTestSequence
 {
-    void SetUp() override;
+    std::vector<int> checkpoints;
+    int currentLeap;
+};
 
+struct LapCalculatorTestSuite : TestWithParam<LapTestSequence>
+{
     StrictMock<GameMock> gameMock;
 
     std::unique_ptr<LapCalculator> sut;
+
+    void SetUp() override;
 };
 
 void LapCalculatorTestSuite::SetUp()
@@ -41,25 +47,7 @@ TEST_F(LapCalculatorTestSuite, FirstUpdateCausesCurrentLeapValueIsOne)
     EXPECT_THAT(sut->lap(), Eq(1));
 }
 
-struct LeapTestSequence
-{
-    std::vector<int> checkpoints;
-    int currentLeap;
-};
-
-struct LapCalculatorGoldenTestSuite : TestWithParam<LeapTestSequence>
-{
-    StrictMock<GameMock> gameMock;
-
-    std::unique_ptr<LapCalculator> sut;
-
-    void SetUp() override
-    {
-        sut = std::make_unique<LapCalculator>(gameMock);
-    }
-};
-
-TEST_P(LapCalculatorGoldenTestSuite, CurrentLeapIsNumberOfStartingCheckpointPassesIncludingFirstOne)
+TEST_P(LapCalculatorTestSuite, CurrentLeapIsNumberOfStartingCheckpointPassesIncludingFirstOne)
 {
     for (int checkpoint : GetParam().checkpoints) {
         Drone drone;
@@ -73,10 +61,10 @@ TEST_P(LapCalculatorGoldenTestSuite, CurrentLeapIsNumberOfStartingCheckpointPass
 }
 
 // clang-format off
-INSTANTIATE_TEST_CASE_P(Instance, LapCalculatorGoldenTestSuite, Values(
-        LeapTestSequence{{1}, 1},
-        LeapTestSequence{{1, 2}, 1},
-        LeapTestSequence{{1, 2, 0}, 1},
-        LeapTestSequence{{1, 2, 0, 1, 1, 2}, 2},
-        LeapTestSequence{{1, 2, 0, 1}, 2},
-        LeapTestSequence{{1, 0, 1, 0, 1, 0, 1}, 4}));
+INSTANTIATE_TEST_CASE_P(Instance, LapCalculatorTestSuite, Values(
+        LapTestSequence{{1}, 1},
+        LapTestSequence{{1, 2}, 1},
+        LapTestSequence{{1, 2, 0}, 1},
+        LapTestSequence{{1, 2, 0, 1, 1, 2}, 2},
+        LapTestSequence{{1, 2, 0, 1}, 2},
+        LapTestSequence{{1, 0, 1, 0, 1, 0, 1}, 4}));
