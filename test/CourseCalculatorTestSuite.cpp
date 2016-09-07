@@ -33,19 +33,32 @@ void CourseCalculatorTestSuite::SetUp()
 TEST_F(CourseCalculatorTestSuite, NoSpeed_NoCorrection)
 {
     drone.speed = {0, 0};
-    EXPECT_THAT(sut->calculateCorrection(drone, target), VectorEq(NO_CORRECTION));
+    EXPECT_THAT(
+            sut->calculateCorrection(drone, target), VectorEq(NO_CORRECTION));
 }
 
 TEST_F(CourseCalculatorTestSuite, SpeedIsParallelToCourse_NoCorrection)
 {
-    drone.speed = {-50, -50};
+    drone.speed = {50, 50};
     ASSERT_THAT(drone.speed, VectorParallel(target));
-    EXPECT_THAT(sut->calculateCorrection(drone, target), VectorEq(NO_CORRECTION));
+    EXPECT_THAT(
+            sut->calculateCorrection(drone, target), VectorEq(NO_CORRECTION));
 }
 
-TEST_F(CourseCalculatorTestSuite, SpeedIsPerpendicularToCourse_PerpendicularSpeedCorrection)
+TEST_F(CourseCalculatorTestSuite,
+        SpeedIsParallelToCourse_ButOppositeDirection_NoCorrection)
+{
+    drone.speed = {-50, -50};
+    ASSERT_THAT(drone.speed, VectorParallel(target));
+    EXPECT_THAT(
+            sut->calculateCorrection(drone, target), VectorEq(NO_CORRECTION));
+}
+
+TEST_F(CourseCalculatorTestSuite,
+        SpeedIsPerpendicularToCourse_PerpendicularSpeedCorrection)
 {
     drone.speed = {50, -50};
     ASSERT_THAT(drone.speed, VectorPerpendicular(target));
-    EXPECT_THAT(sut->calculateCorrection(drone, target), VectorEq(-CORRECTION_EFFICIENCY * drone.speed));
+    EXPECT_THAT(sut->calculateCorrection(drone, target),
+            VectorEq(-CORRECTION_EFFICIENCY * drone.speed));
 }

@@ -25,13 +25,12 @@ Position TargetCalculator::calculateTarget(Drone const& drone)
 
     auto OT = m_radius * normalize(OA + OB);
 
-    auto scalar_product = [](Vector a, Vector b) -> double { return a.real()*b.real() + a.imag()*b.imag(); };
+    auto target = checkpoint_0 + OT;
 
-    auto course = drone.position - checkpoint_0;
-    if (std::abs(scalar_product(drone.speed, drone.position - checkpoint_0 - OT)/std::norm(course) * course) > std::abs(course))
-    {
+    if (std::abs(dot(drone.speed, drone.position - target) / std::norm(target) *
+                 target) > std::abs(target)) {
         std::cerr << "checkpoint is near" << std::endl;
     }
 
-    return checkpoint_0 + OT;
+    return target;
 }

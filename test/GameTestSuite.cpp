@@ -7,12 +7,14 @@ using namespace ::testing;
 
 MATCHER(DroneEmpty, "")
 {
-    return arg.position == c_origin and arg.speed == c_static and arg.nextCheckpoint == 0;
+    return arg.position == c_origin and arg.speed == c_static and
+           arg.nextCheckpoint == 0;
 }
 
 MATCHER_P(DroneEq, value, "")
 {
-    return value.position == arg.position and value.speed == arg.speed and value.nextCheckpoint == arg.nextCheckpoint;
+    return value.position == arg.position and value.speed == arg.speed and
+           value.nextCheckpoint == arg.nextCheckpoint;
 }
 
 struct GameTestSuite : Test

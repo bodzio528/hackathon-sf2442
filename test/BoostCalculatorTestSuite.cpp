@@ -18,7 +18,7 @@ struct BoostCalculatorTestData
     int segment;
     int lap;
     int checkpoint;
-    bool boost;
+    int boost;
 };
 
 struct BoostCalculatorTestSuite : TestWithParam<BoostCalculatorTestData>
@@ -46,71 +46,43 @@ void BoostCalculatorTestSuite::SetUp()
     sut = std::make_unique<BoostCalculator>(gameMock, lapMock, segmentMock);
 }
 
-TEST_P(BoostCalculatorTestSuite, UseBoost_OnCondition_SingleShot)
+TEST_P(BoostCalculatorTestSuite, OnCertainLapCheckpoint_ReturnAvailableBoosts)
 {
     drone.nextCheckpoint = GetParam().checkpoint;
 
-    EXPECT_CALL(lapMock, lap()).Times(2).WillRepeatedly(Return(GetParam().lap));
+    EXPECT_CALL(lapMock, lap()).WillRepeatedly(Return(GetParam().lap));
 
     EXPECT_THAT(sut->calculateBoost(), Eq(GetParam().boost));
-    EXPECT_THAT(sut->calculateBoost(), Eq(false));
 }
 
 // clang-format off
-INSTANTIATE_TEST_CASE_P(OneLapOneBoost, BoostCalculatorTestSuite, Values(
+INSTANTIATE_TEST_CASE_P(OneLapOneBoost_Finish, BoostCalculatorTestSuite, Values(
                             // laps, boosts, segment, lap, chkpt, boost?
-        BoostCalculatorTestData{1, 1, 2, 1, 1, false},
-        BoostCalculatorTestData{1, 1, 2, 1, 2, false},
-        BoostCalculatorTestData{1, 1, 2, 1, 3, false},
-        BoostCalculatorTestData{1, 1, 2, 1, 4, false},
-        BoostCalculatorTestData{1, 1, 2, 1, 0, true} //last straight
+        BoostCalculatorTestData{1, 1, 2, 1, 0, 1}
 ));
 
 INSTANTIATE_TEST_CASE_P(OneLapTwoBoosts, BoostCalculatorTestSuite, Values(
-                            // laps, boosts, segment, lap, chkpt, boost?
-        BoostCalculatorTestData{1, 2, 2, 1, 1, false},
-        BoostCalculatorTestData{1, 2, 2, 1, 2, true},//longest
-        BoostCalculatorTestData{1, 2, 2, 1, 3, false},
-        BoostCalculatorTestData{1, 2, 2, 1, 4, false},
-        BoostCalculatorTestData{1, 2, 2, 1, 0, true} //last straight
+        BoostCalculatorTestData{1, 2, 2, 1, 2, 1},
+        BoostCalculatorTestData{1, 2, 2, 1, 0, 1}
 ));
 
-INSTANTIATE_TEST_CASE_P(TwoLapsOneBoost, BoostCalculatorTestSuite, Values(
-                            // laps, boosts, segment, lap, chkpt, boost?
-        BoostCalculatorTestData{2, 1, 2, 1, 1, false},
-        BoostCalculatorTestData{2, 1, 2, 1, 2, false},
-        BoostCalculatorTestData{2, 1, 2, 1, 3, false},
-        BoostCalculatorTestData{2, 1, 2, 1, 0, false},
-        BoostCalculatorTestData{2, 1, 2, 2, 1, false},
-        BoostCalculatorTestData{2, 1, 2, 2, 2, false},
-        BoostCalculatorTestData{2, 1, 2, 2, 3, false},
-        BoostCalculatorTestData{2, 1, 2, 2, 0, true} //last straight
+INSTANTIATE_TEST_CASE_P(OneLapThreeBoosts, BoostCalculatorTestSuite, Values(
+        BoostCalculatorTestData{1, 3, 2, 1, 2, 1},
+        BoostCalculatorTestData{1, 3, 2, 1, 0, 2}
+));
+
+INSTANTIATE_TEST_CASE_P(TwoLapsOneBoost_Finish, BoostCalculatorTestSuite, Values(
+        BoostCalculatorTestData{2, 1, 2, 2, 0, 1}
 ));
 
 INSTANTIATE_TEST_CASE_P(TwoLapsTwoBoosts, BoostCalculatorTestSuite, Values(
-                            // laps, boosts, segment, lap, chkpt, boost?
-        BoostCalculatorTestData{2, 2, 2, 1, 1, false},
-        BoostCalculatorTestData{2, 2, 2, 1, 2, false},
-        BoostCalculatorTestData{2, 2, 2, 1, 3, false},
-        BoostCalculatorTestData{2, 2, 2, 1, 0, false},
-        BoostCalculatorTestData{2, 2, 2, 2, 1, false},
-        BoostCalculatorTestData{2, 2, 2, 2, 2, true}, // longest
-        BoostCalculatorTestData{2, 2, 2, 2, 3, false},
-        BoostCalculatorTestData{2, 2, 2, 2, 0, true} //last straight
+        BoostCalculatorTestData{2, 2, 2, 2, 2, 1},
+        BoostCalculatorTestData{2, 2, 2, 2, 0, 1}
 ));
 
 INSTANTIATE_TEST_CASE_P(ThreeLapsFourBoosts, BoostCalculatorTestSuite, Values(
-                            // laps, boosts, segment, lap, chkpt, boost?
-        BoostCalculatorTestData{3, 4, 2, 1, 1, false},
-        BoostCalculatorTestData{3, 4, 2, 1, 2, true},
-        BoostCalculatorTestData{3, 4, 2, 1, 3, false},
-        BoostCalculatorTestData{3, 4, 2, 1, 0, false},
-        BoostCalculatorTestData{3, 4, 2, 2, 1, false},
-        BoostCalculatorTestData{3, 4, 2, 2, 2, true},
-        BoostCalculatorTestData{3, 4, 2, 2, 3, false},
-        BoostCalculatorTestData{3, 4, 2, 2, 0, false},
-        BoostCalculatorTestData{3, 4, 2, 3, 1, false} ,
-        BoostCalculatorTestData{3, 4, 2, 3, 2, true} ,
-        BoostCalculatorTestData{3, 4, 2, 3, 3, false} ,
-        BoostCalculatorTestData{3, 4, 2, 3, 0, true} //last straight
+        BoostCalculatorTestData{3, 4, 2, 1, 2, 1},
+        BoostCalculatorTestData{3, 4, 2, 2, 2, 1},
+        BoostCalculatorTestData{3, 4, 2, 3, 2, 1},
+        BoostCalculatorTestData{3, 4, 2, 3, 0, 1}
 ));

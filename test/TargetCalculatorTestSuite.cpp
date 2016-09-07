@@ -28,17 +28,20 @@ struct TargetCalculatorTestSuite : TestWithParam<TestRow>
 
 void TargetCalculatorTestSuite::SetUp()
 {
-    sut = std::make_unique<TargetCalculator>(gameMock);
+    sut = std::make_unique<TargetCalculator>(gameMock, 600.0);
 }
 
-TEST_P(TargetCalculatorTestSuite, CalculationsTakeTwoConsecutiveNodesIntoAccount)
+TEST_P(TargetCalculatorTestSuite,
+        CalculationsTakeTwoConsecutiveNodesIntoAccount)
 {
     Drone drone;
     drone.position = GetParam().drone;
 
     EXPECT_CALL(gameMock, checkpoints()).WillOnce(Return(2));
-    EXPECT_CALL(gameMock, checkpoint(0)).WillOnce(Return(GetParam().checkpoint_0));
-    EXPECT_CALL(gameMock, checkpoint(1)).WillOnce(Return(GetParam().checkpoint_1));
+    EXPECT_CALL(gameMock, checkpoint(0))
+            .WillOnce(Return(GetParam().checkpoint_0));
+    EXPECT_CALL(gameMock, checkpoint(1))
+            .WillOnce(Return(GetParam().checkpoint_1));
 
     ASSERT_THAT(sut->calculateTarget(drone), VectorEq(GetParam().target));
 }

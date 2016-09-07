@@ -9,8 +9,8 @@
 #include "Game.hpp"
 #include "LapCalculator.hpp"
 #include "Logic.hpp"
-#include "TargetCalculator.hpp"
 #include "LongestSegmentCalculator.hpp"
+#include "TargetCalculator.hpp"
 
 int main(int ac, char *av[])
 {
@@ -18,7 +18,7 @@ int main(int ac, char *av[])
     game.initialize(std::cin);
 
     CourseCalculator courseCalculator(4.5);
-    TargetCalculator targetCalculator(game);
+    TargetCalculator targetCalculator(game, 550.0);
 
     LapCalculator lapCalculator(game);
     LongestSegmentCalculator segmentCalculator(game);
@@ -29,7 +29,6 @@ int main(int ac, char *av[])
     while (1) {
         game.update(std::cin);
         lapCalculator.update();
-        auto cmd = logic.calculateCommand();
-        std::cout << cmd;
+        std::cout << logic.calculateCommand();
     }
 }

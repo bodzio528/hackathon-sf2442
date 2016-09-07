@@ -7,8 +7,14 @@
 
 #include "Drone.hpp"
 
-Logic::Logic(IGame& game, ICourseCalculator& courseCalc, ITargetCalculator& targetCalc, IBoostCalculator& boostCalc)
-    : m_game(game), m_courseCalculator(courseCalc), m_targetCalculator(targetCalc), m_boostCalculator(boostCalc)
+Logic::Logic(IGame& game,
+        ICourseCalculator& courseCalc,
+        ITargetCalculator& targetCalc,
+        IBoostCalculator& boostCalc)
+    : m_game(game),
+      m_courseCalculator(courseCalc),
+      m_targetCalculator(targetCalc),
+      m_boostCalculator(boostCalc)
 {
 }
 

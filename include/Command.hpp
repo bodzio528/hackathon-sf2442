@@ -13,7 +13,8 @@ struct Command
 
     friend std::ostream& operator<<(std::ostream& out, Command c)
     {
-        return out << static_cast<int>(c.target.real()) << " " << static_cast<int>(c.target.imag()) << " " << c.thrust
+        return out << static_cast<int>(c.target.real()) << " "
+                   << static_cast<int>(c.target.imag()) << " " << c.thrust
                    << std::endl;
     }
 };

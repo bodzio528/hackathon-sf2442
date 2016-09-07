@@ -6,5 +6,5 @@
 
 struct BoostCalculatorMock : IBoostCalculator
 {
-    MOCK_METHOD0(calculateBoost, bool());
+    MOCK_METHOD0(calculateBoost, int());
 };

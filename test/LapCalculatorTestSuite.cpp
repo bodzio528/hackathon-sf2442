@@ -47,7 +47,8 @@ TEST_F(LapCalculatorTestSuite, FirstUpdateCausesCurrentLeapValueIsOne)
     EXPECT_THAT(sut->lap(), Eq(1));
 }
 
-TEST_P(LapCalculatorTestSuite, CurrentLeapIsNumberOfStartingCheckpointPassesIncludingFirstOne)
+TEST_P(LapCalculatorTestSuite,
+        CurrentLeapIsNumberOfStartingCheckpointPassesIncludingFirstOne)
 {
     for (int checkpoint : GetParam().checkpoints) {
         Drone drone;

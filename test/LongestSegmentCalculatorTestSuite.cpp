@@ -12,7 +12,8 @@ struct LongestSegmentCalculatorTestData
     int result;
 };
 
-struct LongestSegmentCalculatorTestSuite : TestWithParam<LongestSegmentCalculatorTestData>
+struct LongestSegmentCalculatorTestSuite
+        : TestWithParam<LongestSegmentCalculatorTestData>
 {
     StrictMock<GameMock> gameMock;
 
@@ -61,10 +62,10 @@ TEST_P(LongestSegmentCalculatorTestSuite, ReturnEndCheckpointOfLongestSegment)
 
 // clang-format off
 INSTANTIATE_TEST_CASE_P(Instance, LongestSegmentCalculatorTestSuite, Values(
-        LongestSegmentCalculatorTestData{{ c_origin, c_origin, c_origin }, 0},
+        LongestSegmentCalculatorTestData{{ c_origin, c_origin, c_origin }, 2},
         LongestSegmentCalculatorTestData{{ c_origin, {100, 100}, {50, 50} }, 1},
         LongestSegmentCalculatorTestData{{ c_origin, {0, 100}, {100, 0} }, 2},
         LongestSegmentCalculatorTestData{{ c_origin, {100, 100}, {50, 100}, {50, 0} }, 1},
-        LongestSegmentCalculatorTestData{{ c_origin, {100, 100}, {200, 0}, {100, -100} }, 1},
-        LongestSegmentCalculatorTestData{{ c_origin, {100, 100}, {300, 0}, {100, -100} }, 2}
+        LongestSegmentCalculatorTestData{{ c_origin, {100, 100}, {200, 0}, {100, -100} }, 3},
+        LongestSegmentCalculatorTestData{{ c_origin, {100, 100}, {300, 0}, {100, -100} }, 3}
 ));

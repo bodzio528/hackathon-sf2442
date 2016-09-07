@@ -5,5 +5,5 @@ class IBoostCalculator
 public:
     virtual ~IBoostCalculator() = default;
 
-    virtual bool calculateBoost() = 0;
+    virtual int calculateBoost() = 0;
 };

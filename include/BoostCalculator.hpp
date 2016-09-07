@@ -15,13 +15,15 @@ class ILongestSegmentCalculator;
 class BoostCalculator : public IBoostCalculator
 {
 public:
-    BoostCalculator(IGame const&, ILapCalculator const&, ILongestSegmentCalculator const&);
+    BoostCalculator(IGame const&,
+            ILapCalculator const&,
+            ILongestSegmentCalculator const&);
 
-    bool calculateBoost() override;
+    int calculateBoost() override;
 
 private:
     Drone const& m_drone;
     ILapCalculator const& m_lapCalculator;
 
-    std::set<std::pair<int, int>> m_boosts;
+    std::multiset<std::pair<int, int>> m_boosts;
 };

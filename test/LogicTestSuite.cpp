@@ -36,8 +36,10 @@ TEST_F(LogicTestSuite, BoostIsCalculatedByBoostCalculator)
     Position checkpoint{1000, 1200};
 
     EXPECT_CALL(gameMock, drone()).WillOnce(ReturnRef(drone));
-    EXPECT_CALL(targetMock, calculateTarget(Ref(drone))).WillOnce(Return(checkpoint));
-    EXPECT_CALL(courseMock, calculateCorrection(Ref(drone), checkpoint)).WillOnce(Return(c_zero));
+    EXPECT_CALL(targetMock, calculateTarget(Ref(drone)))
+            .WillOnce(Return(checkpoint));
+    EXPECT_CALL(courseMock, calculateCorrection(Ref(drone), checkpoint))
+            .WillOnce(Return(c_zero));
     EXPECT_CALL(boostMock, calculateBoost()).WillOnce(Return(true));
 
     auto cmd = sut->calculateCommand();
@@ -51,8 +53,10 @@ TEST_F(LogicTestSuite, TargetIsCalculatedByTargetCalculator)
     Position checkpoint{1000, 1200};
 
     EXPECT_CALL(gameMock, drone()).WillOnce(ReturnRef(drone));
-    EXPECT_CALL(targetMock, calculateTarget(Ref(drone))).WillOnce(Return(checkpoint));
-    EXPECT_CALL(courseMock, calculateCorrection(Ref(drone), checkpoint)).WillOnce(Return(c_zero));
+    EXPECT_CALL(targetMock, calculateTarget(Ref(drone)))
+            .WillOnce(Return(checkpoint));
+    EXPECT_CALL(courseMock, calculateCorrection(Ref(drone), checkpoint))
+            .WillOnce(Return(c_zero));
 
     auto cmd = sut->calculateCommand();
 
@@ -66,8 +70,10 @@ TEST_F(LogicTestSuite, TargetIsCorrectedAdditively)
     Vector correction{100, 200};
 
     EXPECT_CALL(gameMock, drone()).WillOnce(ReturnRef(drone));
-    EXPECT_CALL(targetMock, calculateTarget(Ref(drone))).WillOnce(Return(checkpoint));
-    EXPECT_CALL(courseMock, calculateCorrection(Ref(drone), checkpoint)).WillOnce(Return(correction));
+    EXPECT_CALL(targetMock, calculateTarget(Ref(drone)))
+            .WillOnce(Return(checkpoint));
+    EXPECT_CALL(courseMock, calculateCorrection(Ref(drone), checkpoint))
+            .WillOnce(Return(correction));
 
     auto cmd = sut->calculateCommand();
 

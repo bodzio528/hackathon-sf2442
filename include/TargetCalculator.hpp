@@ -7,7 +7,7 @@ class IGame;
 class TargetCalculator : public ITargetCalculator
 {
 public:
-    TargetCalculator(IGame&, double radius = 550.0);
+    TargetCalculator(IGame&, double radius);
 
     Position calculateTarget(Drone const&) override;
 
